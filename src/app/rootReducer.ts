@@ -1,7 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit'
-import loginReducer from '../features/loginForm/loginFormSlice'
+import userReduser from '../features/users/userSlice'
+
 const rootReducer = combineReducers({
-  login: loginReducer
+  auth: userReduser
 })
 
 export type RootState = ReturnType<typeof rootReducer>
