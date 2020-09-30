@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { call, put, takeEvery } from "redux-saga/effects";
-import { loginError, loginSuccess } from "../userSlice";
+import { loginError, loginSuccess } from "../../users/userSlice";
 import { loginActions, loginState } from './loginFormSlice';
 
 function* loginHandler(action: { payload: loginState }) {

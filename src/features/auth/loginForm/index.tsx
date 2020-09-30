@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link as RouterLink, LinkProps as RouterLinkProps, useRouteMatch } from 'react-router-dom';
+import { Omit } from '@material-ui/types';
 import { RootState } from '../../../app/store';
 import { loginActions } from './loginFormSlice';
 
@@ -50,7 +52,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
-  const classes = useStyles();
+  const match = useRouteMatch()
+  const LinkBehavior = React.forwardRef<any, Omit<RouterLinkProps, 'to'>>((props, ref) => (
+    <RouterLink ref={ref} to={`${match.url}/register`} {...props} />
+  ))
+  const classes = useStyles()
   const dispatch = useDispatch()
   const loginState = useSelector((state: RootState) => state.auth.forms)
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,7 +121,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link component={LinkBehavior} variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

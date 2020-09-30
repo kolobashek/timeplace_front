@@ -1,5 +1,5 @@
 import { combineReducers, createSlice } from '@reduxjs/toolkit'
-import loginReducer from './loginForm/loginFormSlice'
+import loginReducer from '../auth/loginForm/loginFormSlice'
 
 const initialUserState = {
   islogged: false,
