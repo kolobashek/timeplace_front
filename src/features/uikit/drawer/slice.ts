@@ -1,12 +1,12 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../../app/rootReducer';
+import { RootState } from '../../../app/store';
 
 export interface DrawerState {
-  open: boolean;
+  isOpen: boolean;
 }
 
 const initialState: DrawerState = {
-  open: false,
+  isOpen: false,
 }
 
 export const drawerStatus = createSlice({
@@ -14,23 +14,22 @@ export const drawerStatus = createSlice({
   initialState: initialState,
   reducers: {
     open: (state) => {
-      state.open = true
+      state.isOpen = true
     },
     close: (state) => {
-      state.open = false
+      state.isOpen = false
     },
     reverse: (state) => {
-      state.open = !state.open
+      state.isOpen = !state.isOpen
     }
   }
 })
 
-const { open, close, reverse } = drawerStatus.actions
-export const drawerActions = { open, close, reverse }
+export const drawerActions = drawerStatus.actions
 
 export const selectDrawerStatus = createSelector(
-  (state: RootState) => state.uikit.drawer.open,
-  (open) => open
+  (state: RootState) => state.uikit.drawer.isOpen,
+  (isOpen) => isOpen
 );
 
 export default drawerStatus.reducer;

@@ -16,7 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink, LinkProps as RouterLinkProps, useRouteMatch } from 'react-router-dom';
 import { Omit } from '@material-ui/types';
 import { RootState } from '../../../app/store';
-import { loginActions } from './loginFormSlice';
+import { loginActions } from './slice';
+// import { topBarActions } from '../../uikit/topBar/slice';
 
 function Copyright() {
   return (
@@ -58,7 +59,8 @@ export default function SignIn() {
   ))
   const classes = useStyles()
   const dispatch = useDispatch()
-  const loginState = useSelector((state: RootState) => state.auth.forms)
+  // dispatch(topBarActions.setTitle('Authentication')) //need to change
+  const loginState = useSelector((state: RootState) => state.auth.form)
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     let payload = {...loginState, [e.target.name]: e.target.value}
     dispatch(loginActions.inputAuthArgs(payload))

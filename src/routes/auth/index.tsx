@@ -8,7 +8,7 @@ export default function Login() {
   return (
     <div>
         <Switch>
-          <Route exact path={match.path}>
+          <Route strict exact path={match.path}>
             <LoginForm />
           </Route>
           <Route path={`${match.path}/register`}>

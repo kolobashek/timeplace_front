@@ -1,20 +1,16 @@
 import Axios from "axios";
 import { call, put, takeEvery } from "redux-saga/effects";
-import { loginError, loginSuccess } from "../../users/userSlice";
-import { loginActions, loginState } from './loginFormSlice';
+import { userActions } from "../../users/slice";
+import { loginActions, loginState } from './slice';
 
 function* loginHandler(action: { payload: loginState }) {
   try {
     const res = yield call(loginFetch, action.payload)
     const data = res.data
-    // console.log('====================================');
-    // console.log(res);
-    // console.log('====================================');
-    // const resFormatted = JSON.parse(res)
     if (data.success) {
-      yield put(loginSuccess(data.data))
+      yield* [put(userActions.logged(data.data)), put(loginActions.loginSuccess(data.data))]
     } else {
-      yield put(loginError(data))
+      yield put(loginActions.loginError(data))
     }
   } catch (error) {
     throw error

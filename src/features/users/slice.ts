@@ -1,5 +1,4 @@
-import { combineReducers, createSlice } from '@reduxjs/toolkit'
-import loginReducer from '../auth/loginForm/loginFormSlice'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialUserState = {
   islogged: false,
@@ -12,10 +11,6 @@ const initialUserState = {
   photos: {
     gallery: [],
     profilePic: {}
-  },
-  session: {
-    access_token: '',
-    expires_in: ''
   }
 }
 export interface loginForm {
@@ -27,7 +22,7 @@ const slice = createSlice({
   name: 'USER',
   initialState: initialUserState,
   reducers: {
-    loginSuccess: (state, action) => {
+    logged: (state, action) => {
       console.log(state, action.payload);
       state.name = action.payload.user.name
       state.email = action.payload.user.email
@@ -36,20 +31,16 @@ const slice = createSlice({
       state.settings = action.payload.user.settings
       state.roles = action.payload.user.roles
       state.islogged = true
-      state.session.access_token = action.payload.token.access_token
-      state.session.expires_in = action.payload.token.expires_in
     },
-    loginError: (state, action) => {
-      console.log('==============error=================');
-      console.log(action.payload);
-      console.log('====================================');
+    logout: (state, action) => {
+      state = initialUserState;
     },
-    logoutSuccess: (state) => {
+    deleteUser: (state) => {
       state = initialUserState;
     },
   },
 });
 // Reducer
-export default combineReducers({ user: slice.reducer, forms: loginReducer })
+export default slice.reducer
 // Actions
-export const { loginSuccess, logoutSuccess, loginError } = slice.actions
+export const userActions = slice.actions

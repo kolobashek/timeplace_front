@@ -1,12 +1,14 @@
 import { combineReducers } from '@reduxjs/toolkit'
+import userReduser from '../features/users/slice'
+import authReducer from "../features/auth/slice";
 import uikitReducer from '../features/uikit/reducer'
-import userReduser from '../features/users/userSlice'
+import routesReducer from "../routes/slice";
 
 const rootReducer = combineReducers({
-  auth: userReduser,
+  user: userReduser,
+  auth: authReducer,
   uikit: uikitReducer,
+  routes: routesReducer,
 })
-
-export type RootState = ReturnType<typeof rootReducer>
 
 export default rootReducer
