@@ -11,22 +11,18 @@ import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
+import AppRoutes, {
+  AppRoute
+} from '../../../../routes'
 
 interface ListItemLinkProps extends LinkProps {
   to: string
   open?: boolean
 }
 
-const breadcrumbNameMap: { [key: string]: string } = {
-  '/': 'Home',
-  '/auth': 'Authentication',
-  '/auth/register': 'Registration',
-  '/events': 'Events',
-}
-
 function ListItemLink(props: Omit<ListItemLinkProps, 'ref'>) {
-  const { to, open, ...other } = props
-  const primary = breadcrumbNameMap[to]
+  const { to, open, itemProp, ...other } = props
+  const primary = itemProp
 
   return (
     <li>
@@ -38,33 +34,78 @@ function ListItemLink(props: Omit<ListItemLinkProps, 'ref'>) {
     </li>
   )
 }
-
-export default function DrawerList() {
+const MenuItem = (route: AppRoute, routeName: string, key: number) => {
+  const classes = useStyles()
   const [open, setOpen] = React.useState(true)
-
   const handleClick = () => {
     setOpen((prevOpen) => !prevOpen)
   }
+  if (route.childs) {
+    const childs = route.childs
+    return (
+      <React.Fragment key={key}>
+        <ListItemLink
+          to={route.pathname}
+          open={open}
+          onClick={handleClick}
+          itemProp={routeName}
+        />
+        <Collapse component="li" in={open} timeout="auto" unmountOnExit>
+          <List disablePadding>
+            {Object.keys(childs).map(
+              (key, index) => {
+                return (
+                  <ListItemLink
+                    to={childs[key].pathname}
+                    className={classes.nested}
+                    itemProp={key}
+                    key={index}
+                  />
+                )
+              }
+            )}
+          </List>
+        </Collapse>
+      </React.Fragment>
+    )
+  }
+  return (
+    <React.Fragment key={key}>
+      <ListItemLink
+        to={route.pathname}
+        itemProp={routeName}
+      />
+    </React.Fragment>
+  )
+}
+const childsRecusrsionWithName = (
+  route: AppRoute,
+  func: (route: AppRoute, name: string, key: number) => JSX.Element,
+  name: string,
+  key: number
+): any => {
+  if (route.childs) {
+    for (let [name, child] of Object.entries(route.childs)) {
+      childsRecusrsionWithName(child, func, name, key)
+    }
+  }
+  return func(route, name, key)
+}
+
+export default function DrawerList() {
   const classes = useStyles()
-  // AppRoutes.map(
-  //   (route, key) => {
-  //     return(
-
-  //     )
-  //   }
-  // )
-
+  const ListItemsMapped = Object.keys(AppRoutes).map((routeName, key) => {
+    if (!AppRoutes[routeName].isMainMenuItem) {
+      return console.log('no main menu items');
+    }
+    return childsRecusrsionWithName(AppRoutes[routeName], MenuItem, routeName, key)
+  })
+  console.log(ListItemsMapped);
+  
   return (
     <nav className={classes.lists} aria-label="main menu">
       <List>
-        <ListItemLink to="/" />
-        <ListItemLink to="/auth" open={open} onClick={handleClick} />
-        <Collapse component="li" in={open} timeout="auto" unmountOnExit>
-          <List disablePadding>
-            <ListItemLink to="/auth/register" className={classes.nested} />
-          </List>
-        </Collapse>
-        <ListItemLink to="/events" />
+        {ListItemsMapped}
       </List>
     </nav>
   )

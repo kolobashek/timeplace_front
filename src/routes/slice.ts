@@ -31,17 +31,17 @@ export const routeStatus = createSlice({
       Object.entries(state.routes).forEach(
         (([key, route]) => {
           if (action.payload.name === key) {
-            route.isCurrent = true;
+            route.isCurrent = 'true';
             // state.current = action.payload.pathname
             return
           }
-          route.isCurrent = false
+          route.isCurrent = 'false'
         })
       );
     },
     setRoute: (state, action) => {
       state.current = action.payload
-      const title = function () {
+      const title = () => {
         Object.values(state.routes).forEach((value) => {
           const setTitle = (route: AppRoute) => {
             if (action.payload === route.pathname) {
