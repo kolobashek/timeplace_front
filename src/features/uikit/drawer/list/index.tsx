@@ -100,7 +100,7 @@ export default function DrawerList() {
     }
     return childsRecusrsionWithName(AppRoutes[routeName], MenuItem, routeName, key)
   })
-  console.log(ListItemsMapped);
+  // console.log(ListItemsMapped);
   
   return (
     <nav className={classes.lists} aria-label="main menu">

@@ -23,7 +23,7 @@ const slice = createSlice({
   initialState: initialUserState,
   reducers: {
     logged: (state, action) => {
-      console.log(state, action.payload);
+      // console.log(state, action.payload);
       state.name = action.payload.user.name
       state.email = action.payload.user.email
       state.birth = action.payload.user.birth

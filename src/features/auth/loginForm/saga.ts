@@ -23,7 +23,7 @@ export default function* loginWatcher() {
 
 
 const loginFetch = async ({ email, password }: loginState) => {
-  const response = await Axios.post('http://localhost:3456/auth/email/login', {
+  const response = await Axios.post('http://host.docker.internal:3456/auth/email/login', {
     email,
     password
   })

@@ -8,7 +8,6 @@ import {
 
   useLocation
 } from 'react-router-dom'
-import './App.css'
 import { RootState } from './app/store'
 import Drawer, { drawerWidth } from './features/uikit/drawer'
 import TopBar from './features/uikit/topBar'
@@ -20,7 +19,7 @@ function usePageViews() {
   const dispatch = useDispatch()
   React.useEffect(() => {
     dispatch(routeActions.setRoute(location.pathname))
-    console.log(location)
+    // console.log(location)
   }, [location, dispatch])
 }
 
