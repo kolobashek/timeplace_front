@@ -1,19 +1,9 @@
-FROM node:latest
-
-# Create app directory
+FROM node:12.18-alpine
+ENV NODE_ENV=production
 WORKDIR /usr/src/app
-
-COPY package*.json ./
-# COPY package*.json yarn.lock ./
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 COPY yarn.lock ./
-
-RUN yarn install
-# If you are building your code for production
-# RUN npm ci --only=production
-
-# Bundle app source
+RUN yarn install --production --silent && mv node_modules ../
 COPY . .
-
-EXPOSE 80
-# CMD [ "npm", "run", "start" ]
-CMD [ "yarn", "start" ]
+EXPOSE 3000
+CMD ["yarn", "start"]
