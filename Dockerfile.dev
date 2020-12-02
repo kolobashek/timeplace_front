@@ -1,0 +1,19 @@
+FROM node:latest
+
+# Create app directory
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+# COPY package*.json yarn.lock ./
+COPY yarn.lock ./
+
+RUN yarn install
+# If you are building your code for production
+# RUN npm ci --only=production
+
+# Bundle app source
+COPY . .
+
+EXPOSE 80
+# CMD [ "npm", "run", "start" ]
+CMD [ "yarn", "start" ]
