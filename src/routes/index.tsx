@@ -48,15 +48,6 @@ const AppRoutes: AppRoutes = {
         title: 'Registration',
         isCurrent: 'false',
       },
-      'Log off': {
-        pathname: '/auth/register',
-        exact: true,
-        strict: true,
-        main: () => <Registration />,
-        isMainMenuItem: true,
-        title: 'Registration',
-        isCurrent: 'false',
-      },
     },
   },
   Events: {

@@ -1,4 +1,5 @@
 import loginInput from './loginForm/slice'
+import regInput from './regForm/slice'
 import { combineReducers, createSelector, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 
@@ -37,4 +38,4 @@ export const selectTokenExpires = createSelector(
   (tokenExpires) => tokenExpires
 );
 
-export default combineReducers({ session: sessionInput.reducer, form: loginInput });
+export default combineReducers({ session: sessionInput.reducer, loginForm: loginInput, regForm: regInput });

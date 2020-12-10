@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import React from 'react';
+import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink, LinkProps as RouterLinkProps, useRouteMatch } from 'react-router-dom';
 import { Omit } from '@material-ui/types';
@@ -23,7 +23,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="http://timeplace.net/">
+      <Link color="inherit" href={window.location.origin}>
         TimePlace
       </Link>{' '}
       {new Date().getFullYear()}
@@ -60,7 +60,7 @@ export default function SignIn() {
   const classes = useStyles()
   const dispatch = useDispatch()
   // dispatch(topBarActions.setTitle('Authentication')) //need to change
-  const loginState = useSelector((state: RootState) => state.auth.form)
+  const loginState = useSelector((state: RootState) => state.auth.loginForm)
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     let payload = {...loginState, [e.target.name]: e.target.value}
     dispatch(loginActions.inputAuthArgs(payload))

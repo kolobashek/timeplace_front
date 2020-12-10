@@ -23,13 +23,16 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../app/store';
+import { registerActions } from './slice';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href={window.location.origin}>
+        TimePlace
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -59,7 +62,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-
+  const dispatch = useDispatch()
+  const registerState = useSelector((state: RootState) => state.auth.regForm)
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.name, e.target.value) // еще пофиксить
+    let payload = {...registerState, [e.target.name]: e.target.value}
+    dispatch(registerActions.inputRegArgs(payload))
+  }
+  const dateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = new Date(e.target.value)
+    let payload = {...registerState, [e.target.name]: formatted}
+    dispatch(registerActions.inputRegArgs(payload))
+  }
+  const submitHandler = () => {
+    dispatch(registerActions.signUp(registerState))
+  }
+  const date = `${(new Date()).getFullYear()}-${(new Date()).getMonth()+1}-${(new Date()).getDate()}`
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -75,13 +93,14 @@ export default function SignUp() {
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
-                name="firstName"
+                name="name"
                 variant="outlined"
                 required
                 fullWidth
                 id="firstName"
                 label="First Name"
                 autoFocus
+                onChange={inputHandler}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -91,8 +110,9 @@ export default function SignUp() {
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lastName"
+                name="surname"
                 autoComplete="lname"
+                onChange={inputHandler}
               />
             </Grid>
             <Grid item xs={12}>
@@ -104,6 +124,33 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={inputHandler}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="phone"
+                label="Phone number"
+                name="phone"
+                autoComplete="phone"
+                onChange={inputHandler}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                defaultValue={date}
+                id="birthday"
+                type="date"
+                label="Birthday"
+                name="birthday"
+                autoComplete="birthday"
+                onChange={dateHandler}
               />
             </Grid>
             <Grid item xs={12}>
@@ -115,7 +162,18 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                onChange={inputHandler}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="passwordConfirm"
+                label="Confirm password"
+                type="password"
+                id="password-confirm"
               />
             </Grid>
             <Grid item xs={12}>
@@ -131,6 +189,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={submitHandler}
           >
             Sign Up
           </Button>

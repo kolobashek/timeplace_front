@@ -1,63 +1,72 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
 
-export interface loginState {
-  email: string;
-  password: string;
-  message?: string;
+export interface registerState {
+  name: string
+  surname: string
+  email: string
+  phone: string
+  birthdaydate: Date
+  password: string
+  message?: string
 }
 
-const initialState: loginState = {
+const initialState: registerState = {
+  name: '',
+  surname: '',
   email: '',
+  phone: '',
+  birthdaydate: new Date(),
   password: '',
 }
-// export interface loginForm {
+// export interface registerForm {
 //   email: string,
 //   password: string
 // }
 
-const loginInput = createSlice({
-  name: 'LOGIN',
+const registerInput = createSlice({
+  name: 'REGISTER',
   initialState: initialState,
   reducers: {
-    signIn: (state, action) => {
+    signUp: (state, action) => {
+      state.name = action.payload.name
+      state.surname = action.payload.surname
+      state.email = action.payload.email
+      state.phone = action.payload.phone
+      state.birthdaydate = action.payload.birthdaydate
+      state.password = action.payload.password
+    },
+    inputRegArgs: (state, action) => {
       state.email = action.payload.email
       state.password = action.payload.password
     },
-    inputAuthArgs: (state, action) => {
-      state.email = action.payload.email
-      state.password = action.payload.password
-    },
-    loginSuccess: (state, action) => {
+    registerSuccess: (state, action) => {
       console.log(state, action.payload);
       state.password = ''
     },
-    loginError: (state, action) => {
+    registerError: (state, action) => {
       state.password = ''
       state.message = action.payload.message // перепроверить
       console.log('==============error=================');
       console.log(action.payload);
       console.log('====================================');
     },
-    logoutSuccess: (state) => {
-      state = initialState;
-    }
   }
 })
 
-export const loginActions = loginInput.actions
+export const registerActions = registerInput.actions
 
 export const selectEmail = createSelector(
-  (state: RootState) => state.auth.loginForm.email,
+  (state: RootState) => state.auth.regForm.email,
   (email) => email
 );
 export const selectPassword = createSelector(
-  (state: RootState) => state.auth.loginForm.password,
+  (state: RootState) => state.auth.regForm.password,
   (password) => password
 );
 export const selectError = createSelector(
-  (state: RootState) => state.auth.loginForm.message,
+  (state: RootState) => state.auth.regForm.message,
   (message) => message
 );
 
-export default loginInput.reducer;
+export default registerInput.reducer;
