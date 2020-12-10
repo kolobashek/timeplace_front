@@ -23,11 +23,11 @@ export default function* registerWatcher() {
 }
 
 
-const registerFetch = (body: any) => new ApiFetch('/auth/email/register').post(body)
-// const registerFetch = async ({ email, password }: registerState) => {
-//   const response = await Axios.post('http://localhost:3000/auth/email/register', {
-//     email,
-//     password
-//   })
+const registerFetch = (body: any) => {
+  return (new ApiFetch('/auth/email/register')).post(body)
+}
+// const registerFetch = async (body: registerState) => {
+//   console.log(`saga-fetch = ${JSON.stringify(body)}`)
+//   const response = await Axios.post('http://localhost:3000/auth/email/register', body)
 //   return response
 // }

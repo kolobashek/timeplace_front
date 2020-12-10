@@ -29,6 +29,7 @@ const registerInput = createSlice({
   initialState: initialState,
   reducers: {
     signUp: (state, action) => {
+      console.log(`slice=>actions=>signUp = ${JSON.stringify(state)} ${JSON.stringify(action)}`)
       state.name = action.payload.name
       state.surname = action.payload.surname
       state.email = action.payload.email
@@ -37,7 +38,11 @@ const registerInput = createSlice({
       state.password = action.payload.password
     },
     inputRegArgs: (state, action) => {
+      state.name = action.payload.name
+      state.surname = action.payload.surname
       state.email = action.payload.email
+      state.phone = action.payload.phone
+      state.birthdaydate = action.payload.birthdaydate
       state.password = action.payload.password
     },
     registerSuccess: (state, action) => {

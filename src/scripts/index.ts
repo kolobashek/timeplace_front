@@ -6,11 +6,9 @@ export class ApiFetch {
     this.reqAddr = _reqAddr
   }
   protected reqAddr: string
-  protected apiHost = () => {
-    const { host, protocol } = window.location
-    return process.env.REACT_APP_API_HOST || `${protocol}://${host}:${process.env.REACT_APP_API_PORT}`
-  }
+  private apiHost = process.env.REACT_APP_API_HOST || `${window.location.protocol}//${window.location.hostname}:${process.env.REACT_APP_API_PORT}`
   public post = async (body: loginState): Promise<any> => {
+    console.log(`${this.apiHost}${this.reqAddr}`, body)
     const response = await Axios.post(`${this.apiHost}${this.reqAddr}`, body)
     return response
   }
