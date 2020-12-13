@@ -65,7 +65,6 @@ export default function SignUp() {
   const dispatch = useDispatch()
   const registerState = useSelector((state: RootState) => state.auth.regForm)
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.name, e.target.value) // еще пофиксить
     let payload = {...registerState, [e.target.name]: e.target.value}
     dispatch(registerActions.inputRegArgs(payload))
   }
@@ -194,7 +193,7 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/auth" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

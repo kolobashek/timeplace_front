@@ -13,8 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link as RouterLink, LinkProps as RouterLinkProps, useRouteMatch } from 'react-router-dom';
-import { Omit } from '@material-ui/types';
 import { RootState } from '../../../app/store';
 import { loginActions } from './slice';
 // import { topBarActions } from '../../uikit/topBar/slice';
@@ -53,10 +51,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
-  const match = useRouteMatch()
-  const LinkBehavior = React.forwardRef<any, Omit<RouterLinkProps, 'to'>>((props, ref) => (
-    <RouterLink ref={ref} to={`${match.url}/register`} {...props} />
-  ))
   const classes = useStyles()
   const dispatch = useDispatch()
   // dispatch(topBarActions.setTitle('Authentication')) //need to change
@@ -67,6 +61,20 @@ export default function SignIn() {
   }
   const submitHandler = () => {
     dispatch(loginActions.signIn(loginState))
+  }
+  //validate
+  const keyHandler = (e: React.KeyboardEvent) => {
+    //validate
+  let code;
+  if (e.key !== undefined) {
+    code = e.key;
+  // } else if (e.keyIdentifier !== undefined) {
+  //   code = e.keyIdentifier;
+  // } else if (e.keyCode !== undefined) {
+  //   code = e.keyCode;
+  }
+  console.log(code)
+  return code
   }
   return (
     <Container component="main" maxWidth="xs">
@@ -90,6 +98,7 @@ export default function SignIn() {
             autoComplete="email"
             autoFocus
             onChange={inputHandler}
+            onKeyDown={keyHandler}
           />
           <TextField
             variant="outlined"
@@ -102,6 +111,7 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
             onChange={inputHandler}
+            onKeyDown={keyHandler}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -123,8 +133,8 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link component={LinkBehavior} variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link href="/auth/register" variant="body2">
+                Don't have an account? Sign Up
               </Link>
             </Grid>
           </Grid>
